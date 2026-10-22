@@ -1,0 +1,186 @@
+openapi: 3.0.0
+info:
+  title: Employee Leave Management System (ELMS) API
+  version: 1.0.0
+  description: API specification for ELMS (Auth, Employee, Leave services).
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local Development Server
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required: [email, password]
+    
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [EMPLOYEE, MANAGER, HR, ADMIN]
+    
+    LeaveRequest:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        leaveType:
+          type: string
+          enum: [PLANNED, SICK, CASUAL, UNPAID]
+        reason:
+          type: string
+      required: [startDate, endDate, leaveType]
+
+    LeaveResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        employeeId:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum: [PENDING, APPROVED, REJECTED, CANCELLED]
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        reason:
+          type: string
+
+security:
+  - BearerAuth: []
+
+paths:
+  /auth/login:
+    post:
+      summary: User Login
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+  
+  /employees/{id}:
+    get:
+      summary: Get Employee Profile
+      tags: [Employee]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Employee details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  
+  /leaves:
+    post:
+      summary: Apply for Leave
+      tags: [Leave]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaveRequest'
+      responses:
+        '201':
+          description: Leave applied successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveResponse'
+    get:
+      summary: Get My Leaves
+      tags: [Leave]
+      responses:
+        '200':
+          description: List of leaves
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LeaveResponse'
+
+  /leaves/{id}/approve:
+    post:
+      summary: Approve Leave (Manager only)
+      tags: [Leave]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Leave approved
+  
+  /leaves/{id}/reject:
+    post:
+      summary: Reject Leave (Manager only)
+      tags: [Leave]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Leave rejected

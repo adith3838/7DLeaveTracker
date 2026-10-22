@@ -1,0 +1,5 @@
+{
+  "authApiUrl": "/api/v1",
+  "employeeApiUrl": "/api/v1",
+  "leaveApiUrl": "/api/v1"
+}

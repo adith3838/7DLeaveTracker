@@ -1,0 +1,31 @@
+spring:
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${SPRING_KAFKA_CONSUMER_GROUP_ID:notification-group}
+      auto-offset-reset: ${SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET:earliest}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:noreply@elms.com}
+    password: ${MAIL_PASSWORD:changeme}
+    from: ${MAIL_FROM:noreply@elms.com}
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:true}
+          starttls:
+            enable: ${MAIL_SMTP_STARTTLS:true}
+
+app:
+  notifications:
+    manager-email: ${MAIL_MANAGER_TO:manager@elms.com}
+    employee-email: ${MAIL_EMPLOYEE_TO:employee@elms.com}
+
+logging:
+  level:
+    com.elms.notification: DEBUG

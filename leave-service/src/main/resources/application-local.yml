@@ -1,0 +1,68 @@
+spring:
+  flyway:
+    enabled: ${AI_ENABLED:true}
+    baseline-on-migrate: true
+    baseline-version: 99
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  ai:
+    vectorstore:
+      type: ${AI_VECTORSTORE_TYPE:pgvector}
+      pgvector:
+        schema-name: ai
+        table-name: policy_vectors_gemini
+        dimensions: 768
+        distance-type: COSINE_DISTANCE
+        index-type: HNSW
+        initialize-schema: false
+    model:
+      chat: ${AI_CHAT_PROVIDER:google-genai}
+      embedding:
+        text: ${AI_EMBEDDING_PROVIDER:google-genai}
+    google:
+      genai:
+        api-key: ${GOOGLE_API_KEY:}
+        chat:
+          api-key: ${GOOGLE_API_KEY:}
+          options:
+            model: ${GEMINI_CHAT_MODEL:gemini-3.8-flash}
+            temperature: 0.1
+        embedding:
+          api-key: ${GOOGLE_API_KEY:}
+          text:
+            options:
+              model: ${GEMINI_EMBEDDING_MODEL:gemini-embedding-001}
+              dimensions: 768
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+app:
+  ai:
+    enabled: ${AI_ENABLED:true}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:8100,http://localhost:4200,http://localhost:8083}
+
+jwt:
+  secret: ${JWT_SECRET:ELMS_JWT_SECRET_KEY_CHANGE_IN_PRODUCTION_MIN_32_CHARS}
+
+logging:
+  level:
+    com.elms.leave: DEBUG

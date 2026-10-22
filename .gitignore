@@ -1,0 +1,10 @@
+# Local deployment/environment values
+.env
+.env.*
+!.env.example
+
+# Build artifacts and installed dependencies
+**/target/
+**/node_modules/
+elms-ui/dist/
+elms-ui/.angular/

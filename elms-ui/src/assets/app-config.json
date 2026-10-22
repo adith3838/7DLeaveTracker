@@ -1,0 +1,5 @@
+{
+  "authApiUrl": "http://localhost:8081/api/v1",
+  "employeeApiUrl": "http://localhost:8085/api/v1",
+  "leaveApiUrl": "http://localhost:8083/api/v1"
+}

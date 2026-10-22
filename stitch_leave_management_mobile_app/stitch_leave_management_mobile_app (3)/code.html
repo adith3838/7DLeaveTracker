@@ -1,0 +1,421 @@
+<!DOCTYPE html><html class="light" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><title>TimeOff Leave Management</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface-container": "#e5eeff", "on-secondary-fixed-variant": "#005236", "on-background": "#0b1c30", "on-surface": "#0b1c30", "surface-dim": "#cbdbf5", "surface-container-low": "#eff4ff", "secondary-container": "#6cf8bb", "surface-container-lowest": "#ffffff", "outline-variant": "#c7c4d8", "on-surface-variant": "#464555", "tertiary-fixed": "#ffddb8", "on-primary-container": "#dad7ff", "on-secondary": "#ffffff", "on-error-container": "#93000a", "secondary-fixed": "#6ffbbe", "secondary": "#006c49", "primary-fixed": "#e2dfff", "background": "#f8f9ff", "on-secondary-container": "#00714d", "inverse-primary": "#c3c0ff", "on-primary-fixed-variant": "#3323cc", "error-container": "#ffdad6", "primary-fixed-dim": "#c3c0ff", "primary-container": "#4f46e5", "secondary-fixed-dim": "#4edea3", "tertiary-container": "#885500", "surface-container-high": "#dce9ff", "surface-container-highest": "#d3e4fe", "on-tertiary": "#ffffff", "outline": "#777587", "on-error": "#ffffff", "on-primary": "#ffffff", "surface-tint": "#4d44e3", "on-tertiary-container": "#ffd4a4", "on-tertiary-fixed": "#2a1700", "tertiary": "#684000", "inverse-surface": "#213145", "surface-bright": "#f8f9ff", "on-primary-fixed": "#0f0069", "error": "#ba1a1a", "surface": "#f8f9ff", "inverse-on-surface": "#eaf1ff", "on-tertiary-fixed-variant": "#653e00", "on-secondary-fixed": "#002113", "primary": "#3525cd", "tertiary-fixed-dim": "#ffb95f", "surface-variant": "d3e4fe" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-xs": "0.25rem", "space-md": "1rem", "space-xl": "2rem", "space-lg": "1.5rem", "margin": "1rem", "space-sm": "0.5rem", "gutter": "1rem" }, fontFamily: { "label-lg": ["Inter"], "body-sm": ["Inter"], "label-sm": ["Inter"], "headline-md": ["Inter"], "body-lg": ["Inter"], "headline-lg-mobile": ["Inter"], "headline-lg": ["Inter"], "body-md": ["Inter"], "headline-sm": ["Inter"], "label-md": ["Inter"] }, fontSize: { "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "headline-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["34px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }] } } } }</script></head><body class="bg-surface font-body-md text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-margin flex items-center justify-between"><div class="flex items-center gap-space-sm min-w-0"><img alt="TimeOff Ionic Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UhAP_REo00fR-EtLgzvsWGmXCW2-Ht7OPqCuwG0Tza6t0DfoH8rBARqPLZcaaBzqAqM1Eq0nvp809ekmjvo1TYp3CUwfHCPObMcKRSGTO-W6tXVqiuDpSNlTXiaBlBnLwNaV3ESjK_ohZNVSiq1alG0_eyRFV15GXaJetZQlLIZ4Qh5p8pk1uGDkYZSW-5ClF8nBXOgaDqef7maurKUF1eOnGLsSsx9oNEz5jSI1B426hV8BnDMNT0rQ"><div class="flex flex-col truncate"><span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">TimeOff</span><h1 class="font-headline-sm text-headline-sm text-on-surface truncate">Apply Leave</h1></div></div><div class="flex items-center gap-space-xs"><button aria-label="User Profile and Sign Out" class="min-w-[44px] min-h-[44px] flex items-center justify-center p-space-xs rounded-full hover:bg-surface-container-high transition-colors" type="button"><div class="relative flex items-center justify-center"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdW5Cuf7JYh0jEMyeqggJGYe-_TJgW6VHVFGvy26dOHZEPmHc0vShOacQ2XugLuL3zdg5VZ5fxN0VWmRl9GTVDKxnoRPJ-nO4YAwaBZ2iozuPvSZAF-TqG1OxWuDjwhWGsiMoYScJNWadNL2fW2TaDnBMu5e-lC_51wPYcLQUk8saVpqmJoyG7s47eAjOLWO-pPA3GNppA5njkYO_ldtC2JDzc0YNbeQ9NFwTzMZgTLayT29xijgxq"><span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-secondary rounded-full ring-2 ring-surface"></span></div></button><button aria-label="Sign Out" class="min-w-[44px] min-h-[44px] flex items-center justify-center text-on-surface-variant hover:text-error transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">logout</span></button></div></div></header><main class="flex flex-col relative w-full pt-16 pb-20 bg-surface flex-grow"><div class="flex flex-col w-full px-margin pb-space-xl">
+<!-- Interactive Form Container -->
+<form class="flex flex-col gap-space-lg w-full" id="leaveApplicationForm" onsubmit="event.preventDefault();">
+<!-- Top Mini Inspiration Card -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low p-space-md shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[26px]">beach_access</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary">Self-Service Portal</span>
+<p class="font-headline-sm text-headline-sm text-on-surface truncate">Book Your Time Off</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Fast review &amp; automated calendar syncing</p>
+</div>
+</div>
+<!-- Subtle visual accent -->
+<div class="absolute -right-4 -bottom-4 w-20 h-20 rounded-full bg-primary/5 pointer-events-none"></div>
+</div>
+<!-- Ionic-Style List Wrapper (Category 1: Policy & Type) -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<!-- Ion-List Header -->
+<div class="px-space-md pt-space-md pb-space-xs flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Leave Category</span>
+<span class="font-body-sm text-body-sm text-primary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]">info</span> Policy Rules
+        </span>
+</div>
+<!-- Ion-Item Dropdown -->
+<div class="p-space-md flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1" for="leaveTypeSelect">
+<span class="">Leave Type</span>
+<span class="text-error">*</span>
+</label>
+<div class="relative flex items-center">
+<div class="absolute left-3.5 text-on-surface-variant flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-[20px]">category</span>
+</div>
+<select class="w-full h-12 pl-11 pr-10 bg-surface-container-low text-on-surface font-body-md text-body-md rounded-lg appearance-none focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="leaveTypeSelect">
+<option data-balance="14" selected="" value="planned">Planned Leave (14 available)</option>
+<option data-balance="7" value="sick">Sick Leave (7 available)</option>
+<option data-balance="3" value="casual">Casual Leave (3 available)</option>
+<option data-balance="999" value="unpaid">Unpaid Leave</option>
+</select>
+<div class="absolute right-3.5 text-on-surface-variant flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Ionic-Style Inset Group: Schedule & Duration -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl shadow-sm p-space-md gap-space-md">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Dates &amp; Schedule</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Standard 8h</span>
+</div>
+<!-- Start and End Dates Grid -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="startDateInput">Start Date</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 px-3 bg-surface-container-low text-on-surface font-body-md text-body-md rounded-lg focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="startDateInput" type="date" value="2025-06-16">
+</div>
+</div>
+<div class="flex flex-col gap-space-xs">
+<label class="font-label-md text-label-md text-on-surface-variant" for="endDateInput">End Date</label>
+<div class="relative flex items-center">
+<input class="w-full h-12 px-3 bg-surface-container-low text-on-surface font-body-md text-body-md rounded-lg focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="endDateInput" type="date" value="2025-06-20">
+</div>
+</div>
+</div>
+<!-- Half Day Quick Toggle (Segmented Controller Style) -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">timelapse</span>
+            Half Day Request
+          </span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="halfDayToggle" type="checkbox">
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-surface-container-lowest after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Half Day Session Selector (Hidden by default, expandable) -->
+<div class="hidden flex-col gap-space-xs mt-space-xs p-space-sm bg-surface-container-low rounded-lg transition-all" id="sessionPickerWrapper">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Select session:</span>
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="h-9 px-space-sm rounded-lg bg-surface-container-lowest font-label-md text-label-md text-on-surface shadow-sm flex items-center justify-center gap-1 transition-colors" id="morningBtn" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">wb_sunny</span>
+              Morning (AM)
+            </button>
+<button class="h-9 px-space-sm rounded-lg bg-transparent font-label-md text-label-md text-on-surface-variant flex items-center justify-center gap-1 hover:bg-surface-container-high transition-colors" id="afternoonBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">bedtime</span>
+              Afternoon (PM)
+            </button>
+</div>
+</div>
+</div>
+<!-- Real-time Calculated Duration Box -->
+<div class="flex items-center gap-space-md p-space-md rounded-xl bg-surface-container-high text-on-surface">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wide">Calculated Duration</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface" id="calculatedDaysText">5</span>
+<span class="font-body-md text-body-md text-on-surface-variant">Working Days</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Excluding Sat, Sun &amp; public holidays</span>
+</div>
+</div>
+</div>
+<!-- Dynamic Balance Preview & Status Notification Banner -->
+<div class="flex flex-col rounded-xl p-space-md bg-surface-container-lowest shadow-sm gap-space-sm transition-all" id="balanceBanner">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px] text-secondary">pie_chart</span>
+<span class="font-label-lg text-label-lg text-on-surface">Balance Impact Preview</span>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant" id="balanceBadge">Eligible</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm pt-space-xs">
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Current Balance</span>
+<span class="font-headline-sm text-headline-sm text-on-surface" id="currentBalanceDisplay">14 days</span>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container-low flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface-variant">After Approval</span>
+<span class="font-headline-sm text-headline-sm text-primary" id="remainingBalanceDisplay">9 days</span>
+</div>
+</div>
+<!-- Warning Trigger State Bar -->
+<div class="mt-space-xs p-space-sm rounded-lg bg-secondary-container text-on-secondary-container flex items-start gap-space-xs transition-all" id="statusAlertBox">
+<span class="material-symbols-outlined text-[18px] shrink-0 mt-0.5" id="statusAlertIcon">verified</span>
+<p class="font-body-sm text-body-sm" id="statusAlertText">You have 14 planned leave days remaining. Balance after approval: 9 days.</p>
+</div>
+</div>
+<!-- Ionic-Style List Item: Reason & Notes -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl shadow-sm p-space-md gap-space-xs">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1" for="leaveReason">
+<span class="">Reason for Leave</span>
+<span class="text-error">*</span>
+</label>
+<span class="font-label-sm text-label-sm text-on-surface-variant" id="charCountLabel">0/250</span>
+</div>
+<textarea class="w-full p-3 bg-surface-container-low text-on-surface font-body-md text-body-md rounded-lg resize-none focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary transition-all" id="leaveReason" maxlength="250" placeholder="e.g. Annual family travel..." rows="3"></textarea>
+</div>
+<!-- Supporting Documentation / Upload Box -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl shadow-sm p-space-md gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">attach_file</span>
+<span class="font-label-md text-label-md text-on-surface">Supporting Documents</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Optional</span>
+</div>
+<!-- Upload Trigger Zone -->
+<div class="group relative flex flex-col items-center justify-center p-space-lg bg-surface-container-low rounded-xl text-center cursor-pointer hover:bg-surface-container transition-all" id="dropZone">
+<input accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="fileAttachment" type="file">
+<div class="w-10 h-10 rounded-full bg-surface-container-high group-hover:bg-primary-fixed flex items-center justify-center text-primary mb-space-xs transition-colors">
+<span class="material-symbols-outlined text-[22px]">cloud_upload</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface">Upload medical slips or flight itinerary</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">PDF, PNG, JPG up to 10MB</p>
+</div>
+<!-- Selected File Preview Chip -->
+<div class="hidden items-center justify-between p-space-sm bg-surface-container-high rounded-lg" id="filePreviewBadge">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-[18px] text-primary">description</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate" id="fileNameDisplay">medical_certificate.pdf</span>
+</div>
+<button class="text-on-surface-variant hover:text-error flex items-center p-1" id="removeFileBtn" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<!-- Full-Width Primary Submit Button -->
+<button class="w-full h-12 px-space-md rounded-xl bg-primary text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-space-sm shadow-md active:bg-primary/90 transition-all" id="submitRequestBtn" type="button" style="background-color: rgb(2, 132, 199); color: rgb(255, 255, 255); box-shadow: rgba(2, 132, 199, 0.4) 0px 4px 14px;">
+<span class="">Submit Leave Request</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<!-- Secondary Reset / Cancel Button -->
+<button class="w-full h-12 px-space-md rounded-xl bg-surface-container text-primary font-label-lg text-label-lg flex items-center justify-center gap-space-xs hover:bg-surface-container-high active:scale-[0.99] transition-all" id="resetRequestBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">restart_alt</span>
+<span class="">Cancel / Reset</span>
+</button>
+</div>
+</form>
+<!-- Interactive Submission Toast Feedback Modal/Snackbar -->
+<div class="fixed bottom-20 left-4 right-4 z-50 transform translate-y-32 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-space-md p-space-md bg-inverse-surface text-inverse-on-surface rounded-xl shadow-xl" id="confirmationToast">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<div class="flex flex-col min-w-0 flex-1">
+<p class="font-label-md text-label-md text-white">Leave Request Submitted</p>
+<p class="font-body-sm text-body-sm text-surface-container truncate">Sent to your line manager for approval.</p>
+</div>
+</div>
+</div>
+<script>
+  (function initLeaveApplication() {
+    const leaveTypeSelect = document.getElementById('leaveTypeSelect');
+    const startDateInput = document.getElementById('startDateInput');
+    const endDateInput = document.getElementById('endDateInput');
+    const halfDayToggle = document.getElementById('halfDayToggle');
+    const sessionPickerWrapper = document.getElementById('sessionPickerWrapper');
+    const morningBtn = document.getElementById('morningBtn');
+    const afternoonBtn = document.getElementById('afternoonBtn');
+    const calculatedDaysText = document.getElementById('calculatedDaysText');
+    const currentBalanceDisplay = document.getElementById('currentBalanceDisplay');
+    const remainingBalanceDisplay = document.getElementById('remainingBalanceDisplay');
+    const balanceBadge = document.getElementById('balanceBadge');
+    const statusAlertBox = document.getElementById('statusAlertBox');
+    const statusAlertIcon = document.getElementById('statusAlertIcon');
+    const statusAlertText = document.getElementById('statusAlertText');
+    const leaveReason = document.getElementById('leaveReason');
+    const charCountLabel = document.getElementById('charCountLabel');
+    const fileAttachment = document.getElementById('fileAttachment');
+    const filePreviewBadge = document.getElementById('filePreviewBadge');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const removeFileBtn = document.getElementById('removeFileBtn');
+    const submitRequestBtn = document.getElementById('submitRequestBtn');
+    const resetRequestBtn = document.getElementById('resetRequestBtn');
+    const confirmationToast = document.getElementById('confirmationToast');
+
+    let isHalfDay = false;
+    let selectedSession = 'morning';
+
+    // Calculate working days (excluding Saturdays & Sundays)
+    function calculateBusinessDays(startDate, endDate) {
+      if (!startDate || !endDate) return 0;
+      let start = new Date(startDate);
+      let end = new Date(endDate);
+
+      if (start > end) return 0;
+
+      let count = 0;
+      let curDate = new Date(start.getTime());
+
+      while (curDate <= end) {
+        let dayOfWeek = curDate.getDay();
+        if (dayOfWeek !== 0 && dayOfWeek !== 6) { // Not Sunday or Saturday
+          count++;
+        }
+        curDate.setDate(curDate.getDate() + 1);
+      }
+      return count;
+    }
+
+    // Refresh reactive UI state
+    function updateMetrics() {
+      const selectedOption = leaveTypeSelect.options[leaveTypeSelect.selectedIndex];
+      const maxBalance = parseFloat(selectedOption.getAttribute('data-balance') || '0');
+      const leaveLabel = selectedOption.text.split('(')[0].trim();
+
+      let days = calculateBusinessDays(startDateInput.value, endDateInput.value);
+
+      if (isHalfDay) {
+        days = days > 0 ? 0.5 : 0;
+      }
+
+      calculatedDaysText.textContent = days.toString();
+
+      if (leaveLabel.toLowerCase().includes('unpaid')) {
+        currentBalanceDisplay.textContent = 'Unlimited';
+        remainingBalanceDisplay.textContent = 'Unpaid';
+        balanceBadge.className = 'font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant';
+        balanceBadge.textContent = 'Standard';
+
+        statusAlertBox.className = 'mt-space-xs p-space-sm rounded-lg bg-surface-container text-on-surface-variant flex items-start gap-space-xs transition-all';
+        statusAlertIcon.textContent = 'info';
+        statusAlertText.textContent = 'Unpaid leave does not deduct from your paid annual allotment.';
+        submitRequestBtn.disabled = false;
+        submitRequestBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        return;
+      }
+
+      currentBalanceDisplay.textContent = `${maxBalance} days`;
+      const afterBalance = maxBalance - days;
+      remainingBalanceDisplay.textContent = `${Math.max(0, afterBalance)} days`;
+
+      // Insufficient balance check
+      if (afterBalance < 0) {
+        balanceBadge.className = 'font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-error-container text-on-error-container';
+        balanceBadge.textContent = 'Exceeded';
+
+        statusAlertBox.className = 'mt-space-xs p-space-sm rounded-lg bg-error-container text-on-error-container flex items-start gap-space-xs transition-all';
+        statusAlertIcon.textContent = 'warning';
+        statusAlertText.textContent = `Insufficient balance. You need ${days} days, but only ${maxBalance} are available.`;
+        submitRequestBtn.disabled = true;
+        submitRequestBtn.classList.add('opacity-50', 'cursor-not-allowed');
+      } else {
+        balanceBadge.className = 'font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant';
+        balanceBadge.textContent = 'Eligible';
+
+        statusAlertBox.className = 'mt-space-xs p-space-sm rounded-lg bg-secondary-container text-on-secondary-container flex items-start gap-space-xs transition-all';
+        statusAlertIcon.textContent = 'verified';
+        statusAlertText.textContent = `You have ${maxBalance} ${leaveLabel.toLowerCase()} days remaining. Balance after approval: ${afterBalance} days.`;
+        submitRequestBtn.disabled = false;
+        submitRequestBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
+    }
+
+    // Toggle Half Day Mode
+    halfDayToggle.addEventListener('change', (e) => {
+      isHalfDay = e.target.checked;
+      if (isHalfDay) {
+        sessionPickerWrapper.classList.remove('hidden');
+        sessionPickerWrapper.classList.add('flex');
+        endDateInput.value = startDateInput.value;
+        endDateInput.disabled = true;
+      } else {
+        sessionPickerWrapper.classList.add('hidden');
+        sessionPickerWrapper.classList.remove('flex');
+        endDateInput.disabled = false;
+      }
+      updateMetrics();
+    });
+
+    morningBtn.addEventListener('click', () => {
+      selectedSession = 'morning';
+      morningBtn.className = 'h-9 px-space-sm rounded-lg bg-surface-container-lowest font-label-md text-label-md text-on-surface shadow-sm flex items-center justify-center gap-1 transition-colors';
+      afternoonBtn.className = 'h-9 px-space-sm rounded-lg bg-transparent font-label-md text-label-md text-on-surface-variant flex items-center justify-center gap-1 hover:bg-surface-container-high transition-colors';
+    });
+
+    afternoonBtn.addEventListener('click', () => {
+      selectedSession = 'afternoon';
+      afternoonBtn.className = 'h-9 px-space-sm rounded-lg bg-surface-container-lowest font-label-md text-label-md text-on-surface shadow-sm flex items-center justify-center gap-1 transition-colors';
+      morningBtn.className = 'h-9 px-space-sm rounded-lg bg-transparent font-label-md text-label-md text-on-surface-variant flex items-center justify-center gap-1 hover:bg-surface-container-high transition-colors';
+    });
+
+    // Date change listeners
+    startDateInput.addEventListener('change', () => {
+      if (isHalfDay || new Date(startDateInput.value) > new Date(endDateInput.value)) {
+        endDateInput.value = startDateInput.value;
+      }
+      updateMetrics();
+    });
+
+    endDateInput.addEventListener('change', () => {
+      if (new Date(endDateInput.value) < new Date(startDateInput.value)) {
+        startDateInput.value = endDateInput.value;
+      }
+      updateMetrics();
+    });
+
+    leaveTypeSelect.addEventListener('change', updateMetrics);
+
+    // Textarea Character Counter
+    leaveReason.addEventListener('input', (e) => {
+      const len = e.target.value.length;
+      charCountLabel.textContent = `${len}/250`;
+      if (len > 240) {
+        charCountLabel.classList.add('text-error');
+      } else {
+        charCountLabel.classList.remove('text-error');
+      }
+    });
+
+    // File Upload handling
+    fileAttachment.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        fileNameDisplay.textContent = e.target.files[0].name;
+        filePreviewBadge.classList.remove('hidden');
+        filePreviewBadge.classList.add('flex');
+      }
+    });
+
+    removeFileBtn.addEventListener('click', () => {
+      fileAttachment.value = '';
+      filePreviewBadge.classList.add('hidden');
+      filePreviewBadge.classList.remove('flex');
+    });
+
+    // Reset Form
+    resetRequestBtn.addEventListener('click', () => {
+      leaveTypeSelect.selectedIndex = 0;
+      startDateInput.value = '2025-06-16';
+      endDateInput.value = '2025-06-20';
+      halfDayToggle.checked = false;
+      isHalfDay = false;
+      sessionPickerWrapper.classList.add('hidden');
+      sessionPickerWrapper.classList.remove('flex');
+      endDateInput.disabled = false;
+      leaveReason.value = '';
+      charCountLabel.textContent = '0/250';
+      fileAttachment.value = '';
+      filePreviewBadge.classList.add('hidden');
+      filePreviewBadge.classList.remove('flex');
+      updateMetrics();
+    });
+
+    // Submit Request Animation / Toast
+    submitRequestBtn.addEventListener('click', () => {
+      if (!leaveReason.value.trim()) {
+        leaveReason.focus();
+        leaveReason.classList.add('ring-2', 'ring-error');
+        setTimeout(() => leaveReason.classList.remove('ring-2', 'ring-error'), 1800);
+        return;
+      }
+
+      // Show toast
+      confirmationToast.classList.remove('translate-y-32', 'opacity-0', 'pointer-events-none');
+      confirmationToast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        confirmationToast.classList.add('translate-y-32', 'opacity-0', 'pointer-events-none');
+        confirmationToast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    });
+
+    // Initial calculation
+    updateMetrics();
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-xs"><a class="min-w-[44px] min-h-[44px] flex-1 flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[24px]">home</span><span class="font-label-sm text-label-sm">Dashboard</span></a><a aria-current="page" class="min-w-[44px] min-h-[44px] flex-1 flex flex-col items-center justify-center gap-0.5 transition-colors text-primary font-bold" data-path="apply-leave" href="#" style="color: rgb(2, 132, 199);"><span class="material-symbols-outlined text-[24px]">calendar_add_on</span><span class="font-label-sm text-label-sm">Apply</span></a><a class="min-w-[44px] min-h-[44px] flex-1 flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors relative" data-path="approvals" href="#"><div class="relative flex items-center justify-center"><span class="material-symbols-outlined text-[24px]">check_circle</span><span class="absolute -top-1 -right-2 bg-error text-on-error font-label-sm text-[10px] leading-tight px-1 py-0.2 rounded-full min-w-[16px] text-center">3</span></div><span class="font-label-sm text-label-sm">Approvals</span></a><a class="min-w-[44px] min-h-[44px] flex-1 flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-on-surface transition-colors" data-path="admin-hr" href="#"><span class="material-symbols-outlined text-[24px]">badge</span><span class="font-label-sm text-label-sm">Admin/HR</span></a></div></nav>
+
+</body></html>

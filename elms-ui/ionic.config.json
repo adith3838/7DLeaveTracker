@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "elms-ui": {
+      "type": "angular"
+    }
+  },
+  "defaultProject": "elms-ui"
+}
