@@ -29,10 +29,10 @@ import { ChatApiService } from '../../services/chat-api.service';
           <p class="status" *ngIf="loading">Checking your leave information…</p>
           <p class="error" *ngIf="error">{{ error }}</p>
           <section class="draft-card" *ngIf="draft" aria-label="Leave request confirmation">
-            <div><strong>Review your request</strong><p>{{ draft.leaveType }} leave · {{ draft.startDate }} to {{ draft.endDate }}</p><p>{{ draft.reason }}</p></div>
+            <div><strong>{{ draft.status === 'SUBMITTED' ? 'Request submitted' : 'Review your request' }}</strong><p>{{ draft.leaveType }} leave · {{ draft.startDate }} to {{ draft.endDate }}</p><p>{{ draft.reason }}</p></div>
             <p class="draft-status">{{ draft.message }}</p>
-            <button type="button" (click)="confirmDraft()" [disabled]="loading || draft.status !== 'AWAITING_CONFIRMATION'">{{ loading ? 'Submitting…' : 'Confirm and submit leave' }}</button>
-            <button class="secondary" type="button" (click)="draft = null" [disabled]="loading">Discard draft</button>
+            <button type="button" (click)="confirmDraft()" [disabled]="loading || draft.status !== 'AWAITING_CONFIRMATION'">{{ loading ? 'Submitting…' : (draft.status === 'SUBMITTED' ? 'Submitted ✓' : 'Confirm and submit leave') }}</button>
+            <button class="secondary" type="button" (click)="draft = null" [disabled]="loading">{{ draft.status === 'SUBMITTED' ? 'Done' : 'Discard draft' }}</button>
           </section>
         </div>
 
@@ -49,31 +49,45 @@ import { ChatApiService } from '../../services/chat-api.service';
             <button type="submit" [disabled]="loading || !input.trim() || isAiDisabled" aria-label="Send message"><span class="material-symbols-outlined">send</span></button>
           </form>
           <button type="button" class="draft-toggle" (click)="showDraftForm = !showDraftForm" [disabled]="loading || isAiDisabled" *ngIf="!isAiDisabled">{{ showDraftForm ? 'Hide leave form' : 'Prepare a leave request' }}</button>
-          <small>Leave applications are submitted only after you review and confirm.</small>
         </section>
       </section>
     `,
     styles: [`
-      :host { display:block; }
-      .assistant-page { display:flex; flex-direction:column; gap:16px; min-height:calc(100dvh - 150px); }
-      .assistant-heading { display:flex; align-items:center; gap:13px; padding:17px; border-radius:18px; background:linear-gradient(130deg,#3525cd,#7166ec); color:#fff; }
-      .assistant-icon { display:grid; place-items:center; flex:0 0 43px; height:43px; border-radius:14px; background:#ffffff24; }
-      .assistant-icon span { font-size:23px; }.assistant-heading small { opacity:.8; font-size:9px; font-weight:700; letter-spacing:.1em; }
-      .assistant-heading h1 { margin:3px 0; font-size:19px; }.assistant-heading p { margin:0; color:#eeecff; font-size:10px; }
-      .chat-panel { display:flex; flex:1; flex-direction:column; gap:10px; padding:12px; border:1px solid #edf0f6; border-radius:17px; background:#fff; }
-      .message { max-width:90%; padding:11px 13px; border-radius:14px 14px 14px 4px; background:#eff4ff; color:#24283a; }
-      .message strong { color:#3d31bf; font-size:10px; }.message p { margin:5px 0 0; font-size:12px; line-height:1.5; white-space:pre-wrap; }
-      .user-message { align-self:flex-end; border-radius:14px 14px 4px 14px; background:#e5e3ff; }.user-message strong { color:#3025aa; }
-      .sources { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }.sources small { width:100%; color:#626982; font-weight:700; }.sources span { padding:4px 7px; border-radius:8px; color:#3d31bf; background:#fff; font-size:9px; }
-      .status,.error { margin:0; padding:9px 11px; border-radius:10px; font-size:11px; }.status { color:#4f46e5; background:#f2f0ff; }.error { color:#991b1b; background:#fee4e2; }
-      .composer { position:sticky; bottom:0; padding:10px; border:1px solid #edf0f6; border-radius:16px; background:#fff; box-shadow:0 -4px 20px #17243b0a; }
-      .composer form { display:flex; align-items:flex-end; gap:8px; }.composer textarea { flex:1; resize:vertical; min-height:45px; max-height:120px; padding:11px; border:1px solid #e1e5ef; border-radius:12px; outline:none; font:inherit; font-size:12px; }
-      .composer form button,.draft-fields>button,.draft-card button { display:flex; align-items:center; justify-content:center; min-height:42px; padding:0 15px; border:0; border-radius:11px; color:#fff; background:#4f46e5; font-size:11px; font-weight:700; }
-      .composer form button { width:44px; padding:0; }.composer button:disabled { opacity:.5; }
-      .draft-toggle { margin-top:9px; padding:0; border:0; color:#4033c2; background:none; font-size:10px; font-weight:700; text-align:left; }
-      .composer>small { display:block; margin-top:8px; color:#777d8d; font-size:9px; }
-      .draft-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:11px; }.draft-fields label { display:flex; flex-direction:column; gap:4px; color:#52586a; font-size:9px; font-weight:700; }.draft-fields input,.draft-fields select { min-width:0; height:36px; padding:0 8px; border:1px solid #dfe4ee; border-radius:8px; background:#fff; font:inherit; font-size:10px; }.draft-fields .reason-field { grid-column:1/-1; }.draft-fields>button { grid-column:1/-1; }
-      .draft-card { padding:12px; border:1px solid #d8d3ff; border-radius:13px; background:#f8f7ff; }.draft-card strong { color:#3426b7; font-size:12px; }.draft-card p { margin:5px 0; font-size:10px; }.draft-card .draft-status { color:#51576a; }.draft-card button { width:100%; margin-top:8px; }.draft-card button.secondary { color:#4033c2; background:#e9e7ff; }
+      :host { display:block; height:100%; }
+      .assistant-page { display:flex; flex-direction:column; height:calc(100vh - 120px); max-width:880px; margin:0 auto; padding:0 12px; }
+      .assistant-heading { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+      .assistant-icon { display:grid; place-items:center; width:38px; height:38px; border-radius:10px; color:#fff; background:linear-gradient(135deg,#6366f1,#4338ca); }
+      .assistant-heading small { font-size:10px; font-weight:700; color:#6366f1; letter-spacing:.05em; }
+      .assistant-heading h1 { margin:0; font-size:18px; font-weight:700; }
+      .assistant-heading p { margin:0; font-size:11px; color:#6b7280; }
+      .chat-panel { flex:1; overflow-y:auto; padding:12px; border:1px solid #e5e7eb; border-radius:12px; background:#fff; display:flex; flex-direction:column; gap:12px; }
+      .message { max-width:82%; padding:10px 14px; border-radius:12px; background:#f3f4f6; font-size:12px; line-height:1.45; }
+      .message strong { display:block; margin-bottom:4px; font-size:11px; color:#4b5563; }
+      .message p { margin:0; white-space:pre-wrap; }
+      .user-message { align-self:flex-end; background:#e0e7ff; color:#1e1b4b; }
+      .user-message strong { color:#4338ca; }
+      .sources { margin-top:8px; padding-top:6px; border-top:1px dashed #d1d5db; display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+      .sources small { font-size:9px; font-weight:700; color:#6b7280; text-transform:uppercase; }
+      .sources span { font-size:10px; padding:2px 6px; border-radius:4px; background:#e5e7eb; color:#374151; }
+      .status { font-size:11px; color:#6366f1; font-style:italic; }
+      .error { font-size:11px; color:#dc2626; padding:8px; border-radius:6px; background:#fef2f2; }
+      .composer { margin-top:10px; }
+      .composer form { display:flex; gap:8px; }
+      .composer form textarea { flex:1; resize:none; padding:8px 12px; border:1px solid #d1d5db; border-radius:10px; font-size:12px; outline:none; }
+      .composer form textarea:focus { border-color:#6366f1; box-shadow:0 0 0 2px rgba(99,102,241,.15); }
+      .composer form button,.draft-fields>button,.draft-card button { display:flex; align-items:center; justify-content:center; min-height:42px; padding:0 15px; border:0; border-radius:11px; color:#fff; background:#4f46e5; font-size:11px; font-weight:700; cursor:pointer; }
+      .draft-toggle { margin-top:9px; padding:0; border:0; color:#4033c2; background:none; font-size:10px; font-weight:700; text-align:left; cursor:pointer; }
+      .draft-fields { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:11px; }
+      .draft-fields label { display:flex; flex-direction:column; gap:4px; color:#52586a; font-size:9px; font-weight:700; }
+      .draft-fields input,.draft-fields select { min-width:0; height:36px; padding:0 8px; border:1px solid #dfe4ee; border-radius:8px; background:#fff; font:inherit; font-size:10px; }
+      .draft-fields .reason-field { grid-column:1/-1; }
+      .draft-fields>button { grid-column:1/-1; }
+      .draft-card { padding:12px; border:1px solid #d8d3ff; border-radius:13px; background:#f8f7ff; }
+      .draft-card strong { color:#3426b7; font-size:12px; }
+      .draft-card p { margin:5px 0; font-size:10px; }
+      .draft-card .draft-status { color:#51576a; }
+      .draft-card button { width:100%; margin-top:8px; }
+      .draft-card button.secondary { color:#4033c2; background:#e9e7ff; }
       @media(max-width:420px) { .draft-fields { grid-template-columns:1fr; }.draft-fields .reason-field,.draft-fields>button { grid-column:auto; } }
     `]
 })
@@ -121,7 +135,12 @@ export class AssistantComponent {
             next: response => {
                 this.conversationId = response.conversationId;
                 this.messages = [...this.messages, { role: 'ASSISTANT', content: response.answer, sources: response.sources }];
-                if (response.intent === 'APPLY_LEAVE') this.showDraftForm = true;
+                if (response.draft) {
+                    this.draft = response.draft;
+                    this.showDraftForm = false;
+                } else if (response.intent === 'APPLY_LEAVE') {
+                    this.showDraftForm = true;
+                }
             },
             error: error => this.error = error.error?.message || error.error?.error || (error.status === 401 || error.status === 403 ? 'Your session has expired or is invalid. Please log in again.' : 'The assistant is temporarily unavailable. Please try again.')
         });
@@ -132,7 +151,7 @@ export class AssistantComponent {
         this.error = '';
         this.chatApi.createLeaveDraft(this.draftForm).pipe(finalize(() => this.loading = false)).subscribe({
             next: draft => { this.draft = draft; this.showDraftForm = false; },
-            error: error => this.error = error.error?.error || 'Could not create the leave draft.'
+            error: error => this.error = error.error?.error || error.error?.message || 'Could not create the leave draft.'
         });
     }
 
@@ -141,8 +160,16 @@ export class AssistantComponent {
         this.loading = true;
         this.error = '';
         this.chatApi.confirmLeaveDraft(this.draft.draftId).pipe(finalize(() => this.loading = false)).subscribe({
-            next: response => this.draft = response,
-            error: error => this.error = error.error?.error || 'Could not submit the leave request.'
+            next: response => {
+                this.draft = response;
+                if (response.status === 'SUBMITTED') {
+                    this.messages = [...this.messages, {
+                        role: 'ASSISTANT',
+                        content: response.message || 'Leave request submitted successfully!'
+                    }];
+                }
+            },
+            error: error => this.error = error.error?.error || error.error?.message || 'Could not submit the leave request.'
         });
     }
 }

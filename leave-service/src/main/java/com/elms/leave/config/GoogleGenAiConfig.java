@@ -9,18 +9,42 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass({Client.class, GoogleGenAiEmbeddingConnectionDetails.class})
 public class GoogleGenAiConfig {
 
     private static final Logger log = LoggerFactory.getLogger(GoogleGenAiConfig.class);
+    private final Environment env;
+
+    public GoogleGenAiConfig(Environment env) {
+        this.env = env;
+    }
+
+    private String resolveApiKey(String rawApiKey) {
+        if (StringUtils.hasText(rawApiKey) && !rawApiKey.startsWith("${")) {
+            return rawApiKey.trim();
+        }
+        String key = env != null ? env.getProperty("GOOGLE_API_KEY") : null;
+        if (!StringUtils.hasText(key) && env != null) {
+            key = env.getProperty("spring.ai.google.genai.chat.api-key");
+        }
+        if (!StringUtils.hasText(key) && env != null) {
+            key = env.getProperty("spring.ai.google.genai.api-key");
+        }
+        if (!StringUtils.hasText(key)) {
+            key = System.getenv("GOOGLE_API_KEY");
+        }
+        return StringUtils.hasText(key) ? key.trim() : null;
+    }
 
     @Bean
     @ConditionalOnMissingBean
     public GoogleGenAiEmbeddingConnectionDetails googleGenAiEmbeddingConnectionDetails(
-            @Value("${spring.ai.google.genai.embedding.api-key:${spring.ai.google.genai.api-key:}}") String apiKey) {
+            @Value("${spring.ai.google.genai.embedding.api-key:${spring.ai.google.genai.api-key:}}") String rawApiKey) {
+        String apiKey = resolveApiKey(rawApiKey);
         if (StringUtils.hasText(apiKey)) {
             log.info("Configuring Google GenAI embedding connection with provided API key.");
             return GoogleGenAiEmbeddingConnectionDetails.builder().apiKey(apiKey).build();
@@ -47,13 +71,11 @@ public class GoogleGenAiConfig {
     @Bean
     @ConditionalOnMissingBean
     public Client googleGenAiClient(
-            @Value("${spring.ai.google.genai.chat.api-key:${spring.ai.google.genai.api-key:}}") String apiKey) {
-        log.info("Configuring Google GenAI client. apiKey length={}, first4='{}', last4='{}'",
-                apiKey != null ? apiKey.length() : -1,
-                apiKey != null && apiKey.length() >= 4 ? apiKey.substring(0, 4) : "",
-                apiKey != null && apiKey.length() >= 4 ? apiKey.substring(apiKey.length() - 4) : "");
+            @Value("${spring.ai.google.genai.chat.api-key:${spring.ai.google.genai.api-key:}}") String rawApiKey) {
+        String apiKey = resolveApiKey(rawApiKey);
         if (StringUtils.hasText(apiKey)) {
-            return Client.builder().apiKey(apiKey.trim()).build();
+            log.info("Configuring Google GenAI client with resolved API key (length={}).", apiKey.length());
+            return Client.builder().apiKey(apiKey).build();
         }
         log.warn("GOOGLE_API_KEY is not set. Google GenAI chat client will use placeholder client.");
         return Client.builder().apiKey("placeholder-unconfigured-api-key").build();
@@ -63,25 +85,20 @@ public class GoogleGenAiConfig {
     @ConditionalOnMissingBean
     public org.springframework.ai.google.genai.GoogleGenAiChatModel googleGenAiChatModel(
             Client client,
+            org.springframework.beans.factory.ObjectProvider<org.springframework.ai.model.tool.ToolCallingManager> toolCallingManagerProvider,
             @Value("${spring.ai.google.genai.chat.options.model:${GEMINI_CHAT_MODEL:gemini-3.8-flash}}") String modelName,
             @Value("${spring.ai.google.genai.chat.options.temperature:0.1}") double temperature) {
         log.info("Configuring GoogleGenAiChatModel with model='{}' and temperature={}", modelName, temperature);
-        try {
-            log.info("Testing client connectivity with model '{}'...", modelName);
-            var testResp = client.models.generateContent(modelName, "ping", null);
-            log.info("Client test SUCCESS! Response text='{}'", testResp.text());
-        } catch (Exception e) {
-            log.error("Client test FAILED during bean creation!", e);
-        }
         org.springframework.ai.google.genai.GoogleGenAiChatOptions options = 
                 org.springframework.ai.google.genai.GoogleGenAiChatOptions.builder()
                         .model(modelName)
                         .temperature(temperature)
                         .build();
-        return org.springframework.ai.google.genai.GoogleGenAiChatModel.builder()
+        var builder = org.springframework.ai.google.genai.GoogleGenAiChatModel.builder()
                 .genAiClient(client)
-                .defaultOptions(options)
-                .build();
+                .defaultOptions(options);
+        toolCallingManagerProvider.ifAvailable(builder::toolCallingManager);
+        return builder.build();
     }
 
     @Bean

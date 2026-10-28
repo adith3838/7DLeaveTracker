@@ -47,3 +47,12 @@ JOIN users manager_user ON manager_user.email = 'sarah.manager@elms.com'
 JOIN employee manager ON manager.user_id = manager_user.id
 WHERE u.email = 'emily.employee@elms.com'
   AND NOT EXISTS (SELECT 1 FROM employee e WHERE e.user_id = u.id);
+
+
+-- Seed standard leave balances for all employees for 2026
+INSERT INTO leave_balance (employee_id, leave_type_id, remaining_balance, balance_year)
+SELECT e.id, lt.id, lt.default_allowance, 2026
+FROM employee e
+CROSS JOIN leave_type lt
+WHERE lt.name IN ('SICK', 'ANNUAL LEAVE', 'COMP_OFF')
+ON CONFLICT (employee_id, leave_type_id, balance_year) DO NOTHING;

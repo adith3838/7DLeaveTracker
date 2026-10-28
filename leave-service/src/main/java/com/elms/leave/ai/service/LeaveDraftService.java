@@ -47,6 +47,18 @@ public class LeaveDraftService {
 	}
 
 	@Transactional
+	public LeaveDraftResponse confirmLatest(Long employeeId) {
+		UUID draftId = jdbcTemplate.query(
+				"SELECT id FROM ai.leave_draft WHERE employee_id = ? AND status = 'DRAFT' AND expires_at > NOW() ORDER BY created_at DESC LIMIT 1",
+				rs -> rs.next() ? rs.getObject("id", UUID.class) : null,
+				employeeId);
+		if (draftId == null) {
+			throw new IllegalStateException("No active pending leave draft found to confirm.");
+		}
+		return confirm(employeeId, draftId);
+	}
+
+	@Transactional
 	public LeaveDraftResponse confirm(Long employeeId, UUID draftId) {
 		Draft draft = jdbcTemplate.query("SELECT id, employee_id, leave_type, start_date, end_date, reason, " +
 						"status, expires_at > NOW() AS is_valid FROM ai.leave_draft WHERE id = ? FOR UPDATE",
@@ -89,3 +101,4 @@ public class LeaveDraftService {
 						 String reason, String status, boolean notExpired) {
 	}
 }
+

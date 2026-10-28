@@ -17,6 +17,7 @@ export interface ChatResponse {
     sources: ChatSource[];
     needsConfirmation: boolean;
     actionStatus: string;
+    draft?: LeaveDraftResponse;
 }
 
 export interface AiRuntimeStatus {

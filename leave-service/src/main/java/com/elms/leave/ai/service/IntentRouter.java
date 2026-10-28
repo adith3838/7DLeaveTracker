@@ -14,10 +14,15 @@ public class IntentRouter {
             return Intent.POLICY_QUESTION;
         }
         if (text.contains("apply for leave") || text.contains("submit leave")
-                || text.contains("request leave") || text.contains("book leave")) {
+                || text.contains("request leave") || text.contains("book leave")
+                || text.contains("raise") || text.contains("take leave")
+                || text.contains("apply leave") || text.contains("sick leave for")) {
             return Intent.APPLY_LEAVE;
         }
-        if (text.contains("balance") || text.contains("remaining leave") || text.contains("days left")) {
+        if (text.contains("balance") || text.contains("remaining leave") || text.contains("days left")
+                || (text.contains("how many") && text.contains("leave"))
+                || text.contains("leave do i have") || text.contains("leave days do i have")
+                || text.contains("my leave days")) {
             return Intent.LEAVE_BALANCE;
         }
         if (text.contains("holiday") || text.contains("public holiday")) {

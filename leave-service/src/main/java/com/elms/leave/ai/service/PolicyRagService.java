@@ -89,7 +89,7 @@ public class PolicyRagService {
                             "If the excerpts do not clearly answer, say that and direct the employee to HR.")
                     .user("Approved policy excerpts:\n" + context + "\n\nEmployee question:\n" + question)
                     .options(org.springframework.ai.google.genai.GoogleGenAiChatOptions.builder()
-                            .model("gemini-2.5-flash")
+                            .model("gemini-3.8-flash")
                             .temperature(0.1)
                             .build())
                     .call()

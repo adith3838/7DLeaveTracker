@@ -31,4 +31,9 @@ public class AiApiExceptionHandler {
     ResponseEntity<Map<String, String>> conflict(IllegalStateException exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", exception.getMessage()));
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException exception) {
+        return ResponseEntity.badRequest().body(Map.of("error", exception.getMessage() != null ? exception.getMessage() : "Leave operation could not be completed."));
+    }
 }

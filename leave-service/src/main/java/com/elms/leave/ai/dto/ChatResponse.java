@@ -9,5 +9,11 @@ public record ChatResponse(
         String intent,
         List<SourceReference> sources,
         boolean needsConfirmation,
-        String actionStatus) {
+        String actionStatus,
+        LeaveDraftResponse draft) {
+
+    public ChatResponse(UUID conversationId, String answer, String intent, List<SourceReference> sources,
+                        boolean needsConfirmation, String actionStatus) {
+        this(conversationId, answer, intent, sources, needsConfirmation, actionStatus, null);
+    }
 }
